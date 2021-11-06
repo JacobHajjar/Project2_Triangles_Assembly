@@ -1,0 +1,217 @@
+     1                                  ;Author information
+     2                                  ;  Author name: Jacob Hajjar
+     3                                  ;  CPSC240-1
+     4                                  ;  Author email: hajjarj@csu.fullerton.edu
+     5                                  ;  Program name: Project 2 Right Triangles
+     6                                  
+     7                                  extern scanf
+     8                                  
+     9                                  extern printf
+    10                                  
+    11                                  extern atof
+    12                                  
+    13                                  global triangle
+    14                                  
+    15                                  segment .data
+    16                                  
+    17 00000000 506C6561736520656E-     name_prompt db "Please enter your last name: ", 0
+    17 00000009 74657220796F757220-
+    17 00000012 6C617374206E616D65-
+    17 0000001B 3A2000             
+    18 0000001E 506C6561736520656E-     title_prompt db "Please enter your title: ", 0
+    18 00000027 74657220796F757220-
+    18 00000030 7469746C653A2000   
+    19 00000038 506C6561736520656E-     sides_prompt db "Please enter the sides of your triangle seperated by ws: ", 0
+    19 00000041 746572207468652073-
+    19 0000004A 69646573206F662079-
+    19 00000053 6F757220747269616E-
+    19 0000005C 676C65207365706572-
+    19 00000065 617465642062792077-
+    19 0000006E 733A2000           
+    20 00000072 546865206172656120-     area_message  db "The area of this triangle is %.5lf square units", 10, 0
+    20 0000007B 6F6620746869732074-
+    20 00000084 7269616E676C652069-
+    20 0000008D 7320252E356C662073-
+    20 00000096 717561726520756E69-
+    20 0000009F 74730A00           
+    21 000000A3 546865206C656E6774-     length_message db "The length of the hypotenuse is %.9lf units.", 10, 0
+    21 000000AC 68206F662074686520-
+    21 000000B5 6879706F74656E7573-
+    21 000000BE 6520697320252E396C-
+    21 000000C7 6620756E6974732E0A-
+    21 000000D0 00                 
+    22 000000D1 506C6561736520656E-     enjoy_message db "Please enjoy your triangles %s %s.", 10, 0
+    22 000000DA 6A6F7920796F757220-
+    22 000000E3 747269616E676C6573-
+    22 000000EC 2025732025732E0A00 
+    23 000000F5 257300                  stringform db "%s", 0
+    24                                  
+    25                                  
+    26                                  segment .bss
+    27 00000000 <res 00000010>          last_name resd 4
+    28 00000010 <res 00000010>          title resd 4
+    29 00000020 <res 00000008>          side_1 resq 1
+    30 00000028 <res 00000008>          side_2 resq 1
+    31                                  
+    32                                  segment .text
+    33                                  
+    34                                  triangle: 
+    35                                  
+    36                                  ;register backup
+    37 00000000 B800000000              mov qword rax, 0
+    38                                  
+    39 00000005 55                      push rbp
+    40 00000006 4889E5                  mov rbp, rsp
+    41 00000009 53                      push rbx
+    42 0000000A 51                      push rcx
+    43 0000000B 52                      push rdx
+    44 0000000C 57                      push rdi
+    45 0000000D 56                      push rsi
+    46 0000000E 4150                    push r8
+    47 00000010 4151                    push r9
+    48 00000012 4152                    push r10
+    49 00000014 4153                    push r11
+    50 00000016 4154                    push r12
+    51 00000018 4155                    push r13
+    52 0000001A 4156                    push r14
+    53 0000001C 4157                    push r15
+    54 0000001E 9C                      pushf 
+    55                                  
+    56                                  ;prompt user for last name
+    57 0000001F B800000000              mov qword rax, 0
+    58 00000024 48BF-                   mov rdi, stringform
+    58 00000026 [F500000000000000] 
+    59 0000002E 48BE-                   mov rsi, name_prompt
+    59 00000030 [0000000000000000] 
+    60 00000038 E8(00000000)            call printf
+    61                                  
+    62                                  ;take in users last name and store into reserved memory
+    63 0000003D B800000000              mov qword rax, 0
+    64 00000042 48BF-                   mov      rdi, stringform
+    64 00000044 [F500000000000000] 
+    65 0000004C 48BE-                   mov      rsi, last_name
+    65 0000004E [0000000000000000] 
+    66 00000056 E8(00000000)            call      scanf
+    67                                  
+    68                                  ;prompt user for their title
+    69 0000005B B800000000              mov qword rax, 0
+    70 00000060 48BF-                   mov rdi, stringform
+    70 00000062 [F500000000000000] 
+    71 0000006A 48BE-                   mov rsi, title_prompt
+    71 0000006C [1E00000000000000] 
+    72 00000074 E8(00000000)            call printf
+    73                                  
+    74                                  ;take in users title and store into memory
+    75 00000079 B800000000              mov qword rax, 0
+    76 0000007E 48BF-                   mov      rdi, stringform
+    76 00000080 [F500000000000000] 
+    77 00000088 48BE-                   mov      rsi, title
+    77 0000008A [1000000000000000] 
+    78 00000092 E8(00000000)            call     scanf
+    79                                  
+    80                                  ;prompt user for sides of the triangle
+    81 00000097 B800000000              mov qword rax, 0
+    82 0000009C 48BF-                   mov rdi, stringform
+    82 0000009E [F500000000000000] 
+    83 000000A6 48BE-                   mov rsi, sides_prompt
+    83 000000A8 [3800000000000000] 
+    84 000000B0 E8(00000000)            call printf
+    85                                  
+    86                                  ;take in first side as a string, then convert to double and store in reserved memory
+    87 000000B5 B800000000              mov qword rax, 0
+    88 000000BA 48BF-                   mov      rdi, stringform
+    88 000000BC [F500000000000000] 
+    89 000000C4 4889E6                  mov      rsi, rsp
+    90 000000C7 E8(00000000)            call      scanf
+    91 000000CC B801000000              mov qword rax, 1
+    92 000000D1 4889E7                  mov rdi, rsp
+    93 000000D4 E8(00000000)            call atof
+    94 000000D9 660FD60425-             movq [side_1], xmm0
+    94 000000DE [20000000]         
+    95                                  
+    96                                  
+    97                                  ;take in second side as a string, then convert to double and store in reserved memory
+    98 000000E2 B800000000              mov qword rax, 0
+    99 000000E7 48BF-                   mov      rdi, stringform
+    99 000000E9 [F500000000000000] 
+   100 000000F1 4889E6                  mov      rsi, rsp
+   101 000000F4 E8(00000000)            call      scanf
+   102 000000F9 B801000000              mov qword rax, 1
+   103 000000FE 4889E7                  mov rdi, rsp
+   104 00000101 E8(00000000)            call atof
+   105 00000106 660FD60425-             movq [side_2], xmm0
+   105 0000010B [28000000]         
+   106                                  
+   107                                  
+   108                                  ;calculate the are by multiplying the sides and dividing by 2 since its a right triangle
+   109                                  
+   110 0000010F F2440F101425-           movsd xmm10, [side_1] ;put value of side 1 into register
+   110 00000115 [20000000]         
+   111 00000119 F2440F101C25-           movsd xmm11, [side_2] ;put value of side 2 into register
+   111 0000011F [28000000]         
+   112 00000123 F2450F59D3              mulsd xmm10, xmm11 ;distance squared and stored in xmm10
+   113                                  
+   114 00000128 48B800000000000000-     mov rax,  0x4000000000000000
+   114 00000131 40                 
+   115 00000132 664C0F6EC8              movq xmm9, rax
+   116 00000137 F2450F5ED1              divsd xmm10, xmm9
+   117                                  
+   118                                  ;print calculated area
+   119 0000013C F2410F10C2              movsd xmm0, xmm10
+   120 00000141 B801000000              mov rax, 1
+   121 00000146 48BF-                   mov rdi, area_message
+   121 00000148 [7200000000000000] 
+   122 00000150 E8(00000000)            call printf
+   123                                  
+   124                                  ;calculate hypotenuse of the sides
+   125 00000155 F2440F101425-           movsd xmm10, [side_1] ;put value of side 1 into register
+   125 0000015B [20000000]         
+   126 0000015F F2450F59D2              mulsd xmm10, xmm10 ;square side 1 in xmm10
+   127                                  
+   128 00000164 F2440F101C25-           movsd xmm11, [side_2] ;put value of side 2 into register
+   128 0000016A [28000000]         
+   129 0000016E F2450F59DB              mulsd xmm11, xmm11 ;square side 2 in xmm11
+   130                                  
+   131 00000173 F2450F58D3              addsd xmm10, xmm11 ;add xmm11 (side 2) to xmm10 and store there
+   132 00000178 F2450F51D2              sqrtsd xmm10, xmm10 ;square root register and store back in itself
+   133                                  
+   134                                  ;print calculated hypotenuse
+   135 0000017D B800000000              mov qword rax, 0
+   136 00000182 F2410F10C2              movsd xmm0, xmm10
+   137 00000187 B801000000              mov rax, 1
+   138 0000018C 48BF-                   mov rdi, length_message
+   138 0000018E [A300000000000000] 
+   139 00000196 E8(00000000)            call printf
+   140                                  
+   141                                  ;print enjoy message
+   142 0000019B 48BF-                   mov rdi, enjoy_message
+   142 0000019D [D100000000000000] 
+   143 000001A5 48BE-                   mov rsi, title
+   143 000001A7 [1000000000000000] 
+   144 000001AF 48BA-                   mov rdx, last_name
+   144 000001B1 [0000000000000000] 
+   145 000001B9 E8(00000000)            call printf
+   146                                  
+   147 000001BE 58                      pop rax
+   148 000001BF 6A00                    push qword 0
+   149                                  
+   150 000001C1 F2410F10C2              movsd xmm0, xmm10
+   151                                  
+   152 000001C6 9D                      popf
+   153 000001C7 415F                    pop r15
+   154 000001C9 415E                    pop r14
+   155 000001CB 415D                    pop r13
+   156 000001CD 415C                    pop r12
+   157 000001CF 415B                    pop r11
+   158 000001D1 415A                    pop r10
+   159 000001D3 4159                    pop r9
+   160 000001D5 4158                    pop r8
+   161 000001D7 5E                      pop rsi
+   162 000001D8 5F                      pop rdi
+   163 000001D9 5A                      pop rdx
+   164 000001DA 59                      pop rcx
+   165 000001DB 5B                      pop rbx
+   166 000001DC 5D                      pop rbp     
+   167                                  
+   168 000001DD C3                      ret
+   169                                  
